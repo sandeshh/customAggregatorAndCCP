@@ -3,10 +3,7 @@ package com.example.mydtapp;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicLong;
 
 import com.datatorrent.common.util.Pair;
 import org.slf4j.Logger;
@@ -24,7 +21,7 @@ public class AnotherDummyOperator extends BaseOperator implements Serializable
 
   private static final Logger logger = LoggerFactory.getLogger(AnotherDummyOperator.class);
 
-  private String context;
+  private String operatorId;
 
   @AutoMetric
   Collection<Collection<Pair<String, Object>>> ret = new ArrayList<>();
@@ -45,7 +42,7 @@ public class AnotherDummyOperator extends BaseOperator implements Serializable
   public void setup(OperatorContext context)
   {
     super.setup(context);
-    this.context = context.toString();
+    this.operatorId = Integer.toString(context.getId());
   }
 
   @Override
@@ -54,7 +51,7 @@ public class AnotherDummyOperator extends BaseOperator implements Serializable
     ret.clear();
 
     Collection<Pair<String, Object>> val = new ArrayList<>();
-    val.add(new Pair<String, Object>("hashtag", "hello " + context.toString()));
+    val.add(new Pair<String, Object>("hashtag", "hello " + operatorId));
     val.add(new Pair<String, Object>("count", new Random().nextInt(100)));
     ret.add(val);
   }
